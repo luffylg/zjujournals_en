@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- width=device-width,height=device-height,  -->
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>文稿查询</title>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/search.css">
+    <script>
+        $.search = function() {
+            var id = $("#ducumentId").val().trim();
+            $("#ducumentId").val(id);
+            if ($("#ducumentId").val() == "" || $("#ducumentId").val() == "ZUSA/B/C-S/D-15-00") {
+                $("#tips span").text("请输入文稿编号");
+                return;
+            }
+            if(!id.match(/^[Zz][Uu][Ss][ABCabc]\-[DdSs]\-\d{2}\-\d{5}/)){
+                $("#tips span").text("请输入指定格式ZUSA/B/C-S/D-15-00");
+                return;
+            }
+            $.ajax({
+                type : "post",
+                dataType : "text",
+                url : "search.php",
+                data : {
+                    "zid" : $("#ducumentId").val(),
+                    "documentDTO.lid" : $("#ducumentId").serialize()
+                },
+
+                success : function(data) {
+
+                    if (data === 'null') {
+                        $("#tips").text("查询的文稿不存在，请重新输入");
+                        return;
+                    }
+                    sessionStorage.docu = data;
+                    window.location.href = "docuMess.html";
+
+
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert(XMLHttpRequest.status);
+                    //alert(XMLHttpRequest.readyState);
+                    //alert(textStatus);
+                    alert("服务器未响应");
+                }
+
+
+            });
+        }
+    </script>
+</head>
+<body>
+<div style="width: 100%; height: 100%; min-height: 400px;">
+    <div id="content">
+        <div id="pagetitle">
+            <span>论文 · 状态查询</span>
+        </div>
+        <div id="imgShow">
+            <img alt="nit_logo" src="images/LOGO.png">
+            <div>
+                <span id="logo_title">浙大学报英文版稿件状态查询</span>
+            </div>
+        </div>
+        <div id="search">
+            <input id="ducumentId" type="text" placeholder="ZUSA/B/C-D-16-00">
+            <div align="center">
+                <div id="button" onclick="$.search()">搜索</div>
+                <div id="tips" align="center">
+                    <span id="tipscontent"></span>
+                </div>
+            </div>
+            <div id="writeTips">
+                <div align="center">
+                    <span style="color: red;">注：</span>&nbsp;&nbsp;&nbsp;请输入投稿确认邮件中以ZUSA，ZUSB或ZUSC开头的稿号。
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div id="copyRight" class="copyRight" align="center">浙大学报英文版</div>
+    </div>
+</div>
+</body>

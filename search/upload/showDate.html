@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>数据显示</title>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            font-family: 微软雅黑, 宋体, 'New York'
+        }
+
+        #backGroundDiv {
+            background: url("images/bg.jpg") no-repeat;
+            background-size: 100% 100%;
+            width: 100%;
+            height: 100%;
+            min-height: 700px;
+            margin: auto;
+            border: 1px solid #ccc;
+        }
+
+        img {
+            width: 150px;
+            height: 100px;
+            margin-top: 60px;
+        }
+
+        #messages {
+            width: 1100px;
+            height: 450px;
+            margin: auto;
+            background: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 1px 1px 100px #909090;
+        }
+
+        #showMess {
+            width: 100%;
+            height: 380px;
+        }
+
+        #showTable {
+            width: 100%;
+            height: 350px;
+            overflow: auto;
+        }
+
+        thead td {
+            font-size: 20px;
+            color: #6ba90a;
+            text-align: center;
+        }
+
+        td {
+            border-color: #6ba90a;
+            border-width: 1.5px;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: 0;
+            border-spacing: 0;
+            padding: 0;
+            border-bottom: 1.5px solid #6ba90a;
+        }
+
+        #title {
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            overflow: hidden;
+            font-size: 30px;
+            color: #6ba90a;
+            text-align: center;
+            border-bottom: 6px solid #ccc;
+        }
+
+        #more {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var line = 0;
+        $(function() {
+            var a = sessionStorage.isSuccess;
+            if (a == undefined) {
+                alert("请先上传文件");
+                window.location.href = "upload.html"
+            } else {
+                $.getMessages();
+            }
+        })
+        $.getMessages = function() {
+            $
+                    .ajax({
+                        type : "post",
+                        dataType : "text",
+                        url : "upload/getExcelMessages.action",
+                        data : {
+                            "line" : line
+                        },
+                        success : function(data) {
+                            data = data.replace(/(^\s*)/, "");
+                            data = data.replace(/(\s*$)/, "");
+                            if (data == "空") {
+                                $("#more").remove();
+                                $("tbody")
+                                        .append(
+                                                "<tr><td id='more' colspan='5'>无更多数据</td><tr>")
+                                return;
+                            } else {
+                                var excelOb = JSON.parse(data);
+                                var title;
+                                $("#more").remove();
+                                for (var i = 0; i < excelOb.length; i++) {
+                                    title = excelOb[i].title;
+                                    title = title.substring(0, 30) + "...";
+                                    $("tbody").append(
+                                            "<tr><td style='width:30%'>" + title
+                                            + "</td><td style='width:10%'>"
+                                            + excelOb[i].status
+                                            + "</td><td style='width:18%'>"
+                                            + excelOb[i].statusTime
+                                            + "</td><td style='width:10%'>"
+                                            + excelOb[i].zid
+                                            + "</td><td style='width:10%'>"
+                                            + excelOb[i].lid
+                                            + "</td><td style='width:11%'>"
+                                            + excelOb[i].firstDecision
+                                            + "</td><td style='width:11%'>"
+                                            + excelOb[i].finalDecision
+                                            + "</td><tr>")
+                                }
+                                line += 50;
+                                $("tbody")
+                                        .append(
+                                                "<tr><td id='more' colspan='5' onclick='$.getMessages()'>点击查看更多</td><tr>")
+                            }
+                        },
+                        error : function(data) {
+                            alert("服务器未响应");
+                        }
+                    });/*
+             $.ajax({
+             url : 'upload/getExcelMessages.action', //用于文件上传的服务器端请求地址
+             data : {"line":line},
+             dataType : 'text',
+             success : function(data, status) //服务器成功响应处理函数
+             {
+             data = data.replace(/(^\s*)/, "");
+             data = data.replace(/(\s*$)/, "");
+             if (data == "空") {
+             $("#tipsConten").text("上传文件无法导入，请重试");
+             return;
+             } else {
+             var excelOb = JSON.parse(data);
+             var title;
+             $("#more").remove();
+             alert(excelOb.length)
+             for (var i = 0; i < excelOb.length; i++) {
+             title = excelOb[i].title;
+             title = title.substring(0, 30) + "...";
+             $("tbody").append(
+             "<tr><td style='width:30%'>" + title + "</td><td style='width:20%'>"
+             + excelOb[i].status + "</td><td style='width:20%'>"
+             + excelOb[i].statusTime + "</td><td style='width:15%'>"
+             + excelOb[i].zid + "</td><td style='width:15%'>"
+             + excelOb[i].lid + "</td><tr>")
+             line+=50;
+             $("tbody").append("<tr><td id='more' colspan='5' onclick='$.getMessages()'>点击查看更多</td><tr>")
+             }
+             }
+
+             $("#tipsConten").text("正在处理返回数据，请稍后....");
+             var excelOb = JSON.parse(data);
+             var title;
+             $("tbody").children().remove();
+             alert(excelOb.length)
+             for (var i = 0; i < excelOb.length; i++) {
+             title = excelOb[i].title;
+             title = title.substring(0, 30) + "...";
+             $("tbody").append(
+             "<tr><td style='width:30%'>" + title + "</td><td style='width:20%'>"
+             + excelOb[i].status + "</td><td style='width:20%'>"
+             + excelOb[i].statusTime + "</td><td style='width:15%'>"
+             + excelOb[i].zid + "</td><td style='width:15%'>"
+             + excelOb[i].lid + "</td><tr>")
+             }
+             $("#tipsContent").text("");
+             $("#load").removeAttr("disabled");
+             $("#load").attr("class", "button1");
+             $("#content").hide();
+             $("#messages").show();
+             },
+             error : function(data, status, e)//服务器响应失败处理函数
+             {
+             alert("服务器未响应");
+
+             }
+             }); */
+        }
+    </script>
+</head>
+<body>
+<div id="backGroundDiv">
+    <div id="imgShow" align="center">
+        <img alt="logo" src="images/LOGO.png">
+    </div>
+    <div id="messages">
+        <div id="title">
+            <span><font>浙大学报英文版论文上传信息</font></span>
+        </div>
+        <div id="showMess">
+            <table width="100%" rules=all>
+                <thead>
+                <tr>
+                    <td width="30%;">论文标题</td>
+                    <td width="10%">论文状态</td>
+                    <td width="18%">状态更新时间</td>
+                    <td width="10%">临时编号</td>
+                    <td width="10%">正式编号</td>
+                    <td style='width: 11%'>首次主编决定</td>
+                    <td style='width: 11%'>稿件最终决定</td>
+                </tr>
+                </thead>
+            </table>
+            <div id="showTable">
+                <table width="100%" rules=all style="font-size: 15px;">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>文稿信息</title>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #content {
+            width: 100%;
+            height: 95%;
+        }
+
+        #pagetitle {
+            height: 5%;
+            border-bottom: 5px solid #ccc;
+            padding-left: 10%;
+            padding-top: 2%;
+            font-size: 20px;
+        }
+
+        #mess {
+            width: 90%;
+            height: 85%;
+            border: 1px solid #ccc;
+            margin: auto;
+            margin-top: 5%;
+            border-radius: 2%;
+            box-shadow: 0px 0px 5px #909090;
+        }
+
+        #messTitle {
+            height: 8%;
+            border-bottom: 3px solid #ccc;
+            text-align: center;
+            padding-top: 2%;
+        }
+
+        #status {
+            height: 10%;
+            word-wrap: break-word;
+        }
+
+        #status div {
+            width: 38%;
+            float: left;
+            color: #080e7f;
+            font-size: 20px;
+        }
+
+        #statusTime {
+            height: 10%;
+            word-wrap: break-word;
+        }
+
+        #statusTime div {
+            width: 50%;
+            float: left;
+            color: #080e7f;
+            font-size: 20px;
+        }
+
+        #title {
+            height: 33%;
+            word-wrap: break-word;
+        }
+
+        #title div:first-child {
+            width: 100%;
+            float: left;
+            color: #080e7f;
+            font-size: 20px;
+        }
+
+        #lid {
+            height: 10%;
+            word-wrap: break-word;
+        }
+
+        #lid div {
+            width: 38%;
+            float: left;
+            color: #080e7f;
+            font-size: 20px;
+        }
+
+        #zid {
+            height: 10%;
+            word-wrap: break-word;
+        }
+
+        #zid div {
+            width: 38%;
+            float: left;
+            color: #080e7f;
+            font-size: 20px;
+        }
+
+        #tail {
+            width: 100%;
+            height: 5%;
+        }
+
+        #copyRight {
+            width: 100%;
+            height: 15px;
+            font-size: 10px;
+            background-color: #dcdcdc;
+            line-height: 15px;
+            overflow: hidden;
+            text-align: center;
+            color: #3a3a3a;
+        }
+    </style>
+</head>
+<script>
+    $(function() {
+        $("#content").hide();
+        var a = sessionStorage.docu;
+        if (a == undefined) {
+            alert("请先在搜索页面搜索信息");
+            window.location.href = "search.html";
+        } else {
+            $("#content").show();
+            var obj =JSON.parse(a);
+            $("#statusContent").text(obj.status);
+            $("#statusTimeContent").text(obj.statusTime);
+            $("#titleContent").html(
+                    "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;" + obj.title);
+            $("#lidContent").text(obj.lid==""?"暂无":obj.lid);
+            $("#zidContent").text(obj.zid==""?"暂无":obj.zid);
+            $("#firstContent").text(obj.firstDecision==""?"暂无":obj.firstDecision);
+            $("#finalContent").text(obj.finalDecision==""?"暂无":obj.finalDecision);
+
+        }
+    })
+
+</script>
+<body>
+<div id="content">
+    <div id="pagetitle">
+        <span>论文 · 状态查询</span>
+    </div>
+    <div id="mess">
+        <div id="messTitle">
+            <div style="height: 40px;font-size:25px; line-height: 40px; overflow: hidden;">status</div>
+        </div>
+        <div style="width: 100%; height: 90%; margin-top: 15px;">
+            <div id="title">
+                <div id="titleFont">&nbsp;&nbsp;论文标题&nbsp;:</div>
+                <div style="width: 92%; height: 80%; padding-left: 20px;">
+                    <font id="titleContent"></font></div>
+            </div>
+
+            <div id="status">
+                <div id="statusFont">&nbsp;&nbsp;论文状态&nbsp;:</div>
+                <font id="statusContent"></font>
+            </div>
+            <div id="statusTime">
+                <div id="statusTimeFont">&nbsp;&nbsp;状态更新时间&nbsp;:</div>
+                <font id="statusTimeContent"></font>
+            </div>
+            <div id="lid">
+                <div id="lidFont">&nbsp;&nbsp;临时编号&nbsp;:</div>
+                <font id="lidContent"></font>
+            </div>
+            <div id="zid">
+                <div id="zidFont">&nbsp;&nbsp;正式编号&nbsp;:</div>
+                <font id="zidContent"></font>
+            </div>
+            <div id="statusTime">
+                <div id="zidFont">&nbsp;&nbsp;首次主编决定&nbsp;:</div>
+                <font id="firstContent"></font>
+            </div>
+            <div id="statusTime">
+                <div id="zidFont">&nbsp;&nbsp;稿件最终决定&nbsp;:</div>
+                <font id="finalContent"></font>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tail">
+    <div id="copyRight">浙大学报英文版</div>
+</div>
+</body>
+</html>

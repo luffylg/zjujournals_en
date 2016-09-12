@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>信息检索</title>
+    <meta name="viewport"
+          content="width=device-width,height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #content {
+            width: 100%;
+            height: 95%;
+        }
+
+        #pagetitle {
+            height: 5%;
+            border-bottom: 5px solid #ccc;
+            padding-left: 10%;
+            padding-top: 2%;
+            font-size: 20px;
+        }
+
+        #mess {
+            width: 90%;
+            height: 90%;
+            border: 1px solid #ccc;
+            margin: auto;
+            margin-top: 5%;
+            border-radius: 2%;
+        }
+
+        #messTitle {
+            height: 8%;
+            border-bottom: 3px solid #ccc;
+            text-align: center;
+            padding-top: 2%;
+        }
+
+        #tail {
+            width: 100%;
+            height: 5%;
+        }
+
+        #copyRight {
+            width: 100%;
+            height: 15px;
+            font-size: 10px;
+            background-color: #dcdcdc;
+            line-height: 15px;
+            overflow: hidden;
+            text-align: center;
+            color: #3a3a3a;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            box-shadow: 0.5px 1px 10px #909090;
+            width: 100%;
+            word-wrap: break-word;
+            cursor: pointer;
+            padding-left: 5px;
+            padding-top: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        var objs = null;
+        $(function() {
+            var names = sessionStorage.nameList;
+            if (names == undefined) {
+                alert("请先在搜索页面搜索信息");
+                window.location.href = "newIf.html";
+            } else {
+                objs = JSON.parse(names);
+                for (var i = 0; i < objs.length; i++){
+                    $("tbody")
+                            .append(
+                                    //"<tr><td id='"+i+"'>" + objs[i].longName
+                                    "<tr><td id='"+i+"'>" + objs[i][2]
+                                    + "</td></tr>");
+                }
+
+            }
+            $("td").click(function() {
+                var str = JSON.stringify(objs[$(this).attr('id')]);
+                sessionStorage.mess = str;
+                window.location.href = "showMess.html";
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="content">
+    <div id="pagetitle">
+        <span>IF查询</span>
+    </div>
+    <div id="mess">
+        <div id="messTitle">
+            <div style="height: 40px; line-height: 40px; overflow: hidden;">查询结果</div>
+        </div>
+        <div style="width: 100%; height: 80%; overflow: auto;">
+            <table id="showMess" width="100%" style="padding: 0px;"
+                   cellspacing="20px;">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="tail">
+    <div id="copyRight">浙大学报英文版</div>
+</div>
+</body>
+</html>

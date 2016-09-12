@@ -1,0 +1,120 @@
+@CHARSET "UTF-8";
+
+@CHARSET "UTF-8";
+
+body, html {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#content {
+    width: 100%;
+    height: 95%;
+}
+
+#pagetitle {
+    height: 5%;
+    border-bottom: 5px solid #ccc;
+    padding-left: 10%;
+    padding-top: 2%;
+    font-size: 20px;
+}
+
+#mess {
+    width: 90%;
+    height: 85%;
+    border: 1px solid #ccc;
+    margin: auto;
+    margin-top: 5%;
+    border-radius: 2%;
+    box-shadow: 0px 0px 5px #909090;
+}
+
+#messTitle {
+    height: 8%;
+    border-bottom: 3px solid #ccc;
+    text-align: center;
+    padding-top: 2%;
+}
+
+#code {
+    height: 15%;
+    word-wrap: break-word;
+}
+
+#code div {
+    width: 38%;
+    float: left;
+    color: #080e7f;
+    font-size: 20px;
+}
+
+#shortname {
+    height: 15%;
+    word-wrap: break-word;
+}
+
+#shortname div {
+    width: 38%;
+    float: left;
+    color: #080e7f;
+    font-size: 20px;
+}
+
+#longname {
+    height: 30%;
+    word-wrap: break-word;
+}
+#longname div:first-child {
+    width: 100%;
+    float: left;
+    color: #080e7f;
+    font-size: 20px;
+}
+
+
+#if {
+    height: 15%;
+    word-wrap: break-word;
+}
+
+#if div {
+    width:60%;
+    float: left;
+    color: #080e7f;
+    font-size: 20px;
+}
+
+
+#area {
+    height: 15%;
+    word-wrap: break-word;
+}
+
+#area div {
+    width: 68%;
+    float: left;
+    color: #080e7f;
+    font-size: 20px;
+}
+
+
+
+
+#tail {
+    width: 100%;
+    height: 5%;
+}
+
+#copyRight {
+    width: 100%;
+    height: 15px;
+    font-size: 10px;
+    background-color: #dcdcdc;
+    line-height: 15px;
+    overflow: hidden;
+    text-align: center;
+    color: #3a3a3a;
+}

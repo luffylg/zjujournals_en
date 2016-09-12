@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>信息显示</title>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/showMess.css">
+</head>
+<script>
+    $(function() {
+        $("#content").hide();
+        var a = sessionStorage.mess;
+        if (a == undefined) {
+            alert("请先在搜索页面搜索信息");
+            window.location.href = "searchIf.html";
+        } else {
+            $("#content").show();
+            var obj = JSON.parse(a);
+            $("#codecontent").text(obj[0]);
+            $("#shortnamecontent").text(obj[1]);
+            $("#longnamecontent").html(
+                    "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + obj[2]);
+            $("#ifcontent").text(obj[3]);
+            $("#areacontent").text(obj[4]);
+        }
+    })
+</script>
+
+<body>
+<!-- ISSN刊号 刊名简写 刊名全称 最新影响因子 中科院大类分区 -->
+
+<div id="content">
+    <div id="pagetitle">
+        <span>IF查询</span>
+    </div>
+    <div id="mess">
+        <div id="messTitle">
+            <div style="height: 40px; line-height: 40px; overflow: hidden;">信息</div>
+        </div>
+        <div style="width: 100%; height: 90%; margin-top: 15px;">
+            <div id="code">
+                <div id="codefont">&nbsp;&nbsp;ISSN刊号&nbsp;:</div>
+                <font id="codecontent"></font>
+            </div>
+            <div id="shortname">
+                <div id="shortnamefont">&nbsp;&nbsp;刊名简写&nbsp;:</div>
+                <font id="shortnamecontent"></font>
+            </div>
+            <div id="longname">
+                <div id="longnamefont">&nbsp;&nbsp;刊名全称&nbsp;:</div>
+                <div style="width: 92%; height: 80%; padding: 20px;">
+                    <font id="longnamecontent"></font>
+                </div>
+            </div>
+            <div id="if">
+                <div id="iffont">&nbsp;&nbsp;最新影响因子&nbsp;:</div>
+                <font id="ifcontent"></font>
+            </div>
+            <div id="area">
+                <div id="areafont">&nbsp;&nbsp;中科院大类分区&nbsp;:</div>
+                <font id="areacontent"></font>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tail">
+    <div id="copyRight">浙大学报英文版</div>
+</div>
+</body>
+</html>

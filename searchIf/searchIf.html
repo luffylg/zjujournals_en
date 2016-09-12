@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>IF查询</title>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="jquery/jquery-2.2.2.js"></script>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #imgShow {
+            padding-top: 20%;
+            padding-bottom: 10%;
+        }
+
+        img {
+            width: 40%;
+            height: 40%;
+            max-width: 200px;
+            max-height: 200px;
+            padding-bottom: 5%;
+        }
+
+        #logo_title {
+            font-size: 20px;
+        }
+
+        #pagetitle {
+            height: 5%;
+            border-bottom: 5px solid #ccc;
+            padding-left: 10%;
+            padding-top: 2%;
+            font-size: 20px;
+            text-align: left;
+        }
+
+        #content {
+            width: 100%;
+            height: 95%;
+            text-align: center;
+        }
+
+        #content input[type='text'] {
+            height: 30px;
+            width: 85%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            outline: none;
+            box-shadow: 0px 0px 1px #909090;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+
+        #button {
+            margin-top: 20px;
+            height: 30px;
+            width: 20%;
+            border: 1px solid #ccc;
+            outline: none;
+            background: white;
+            font-size: 15px;
+            line-height: 30px;
+            overflow: hidden;
+            box-shadow: 0px 0px 5px #909090;
+            border-radius: 5px;
+        }
+
+        #tips {
+            height: 40px;
+            line-height: 40px;
+            overflow: hidden;
+            color: #bd3131;
+        }
+
+        #search {
+            width: 100%;
+            height: 42%;
+        }
+
+        #tail {
+            width: 100%;
+            height: 5%;
+        }
+
+        #copyRight {
+            width: 100%;
+            height: 15px;
+            font-size: 10px;
+            background-color: #dcdcdc;
+            line-height: 15px;
+            overflow: hidden;
+            text-align: center;
+            color: #3a3a3a;
+        }
+    </style>
+</head>
+<script>
+    var messList = null;
+    $.search = function() {
+        if ($("#subMess").val().trim() == "") {
+            $("#tipscontent").text("输入不能为空")
+            return false;
+        }
+        $("#tipscontent").html("<font color='black'>正在搜索中....</font>")
+        $.ajax({
+            type : "post",
+            dataType : "text",
+            url : "searchIf.php",
+            data : {
+                "name" : $("#subMess").val()
+            },
+            success : function(data) {
+                data = data.replace(/(^\s*)/, "");
+                data = data.replace(/(\s*$)/, "");
+                messList = JSON.parse(data);
+                if (messList.length==0) {
+                    $("#tipscontent").text("记录为空，请重新搜索");
+                    return false;
+                }
+                if (messList.length == 1) {
+                    data = JSON.stringify(messList[0]);
+                    sessionStorage.mess = data;
+                    window.location.href = "showMess.html";
+
+                } else {
+                    sessionStorage.nameList = data;
+                    window.location.href = "nameList.html";
+                }
+            },
+            error : function(data) {
+                alert("服务器未响应");
+            }
+        });
+
+    }
+</script>
+<body>
+<div style="width: 100%; height: 100%;">
+    <div id="content">
+        <div id="pagetitle">
+            <span>IF查询</span>
+        </div>
+        <div id="imgShow">
+            <img alt="nit_logo" src="images/LOGO.png">
+            <div>
+                <span id="logo_title">最新SCI期刊影响因子查询</span>
+            </div>
+        </div>
+        <div id="search">
+            <input id="subMess" type="text" placeholder="请输入刊名(英文),或刊名关键字">
+            <div align="center">
+                <div id="button" onclick="$.search()">搜索</div>
+                <div id="tips" align="center">
+                    <span id="tipscontent"></span>
+                </div>
+                <div align="left"
+                     style="font-size: 15px; width: 85%; margin: auto; max-width: 400px;">浙大学报
+                    &nbsp;最新IF:&nbsp;&nbsp;A版&nbsp;0.882&nbsp;&nbsp;B版&nbsp;1.278&nbsp;&nbsp;C版&nbsp;0.415</div>
+            </div>
+        </div>
+        <div id="tail">
+            <div id="copyRight">浙大学报英文版</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
